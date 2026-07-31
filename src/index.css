@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-primary: #8c000e;
+  --color-crimson-red: #B5121B;
+  --color-charcoal-black: #1A1A1A;
+  --color-paper-white: #FFFFFF;
+  --color-soft-accent: #F8F8F8;
+  --color-surface: #fff8f7;
+  --color-surface-container: #ffe9e6;
+  --color-surface-container-low: #fff0ef;
+  --color-surface-container-high: #ffe2de;
+  --color-on-background: #271716;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+body {
+  overflow-x: hidden;
+}
