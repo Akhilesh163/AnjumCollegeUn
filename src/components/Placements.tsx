@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Award, 
@@ -84,6 +84,51 @@ const PLACED_STUDENTS = [
   { name: 'Nikita Borkar', branch: 'Computer Science & Engineering', company: 'Accenture', package: '8.2 LPA', year: '2025-26', gender: 'F' },
   { name: 'Sameer Sheikh', branch: 'Civil Engineering', company: 'L&T Construction', package: '6.5 LPA', year: '2025-26', gender: 'M' },
   { name: 'Huzefa Ahmed', branch: 'Artificial Intelligence & Data Science', company: 'Cognizant', package: '6.2 LPA', year: '2025-26', gender: 'M' }
+];
+
+const TOP_PLACEMENTS = [
+  {
+    name: 'Ritesh Kumar Pandey', degree: 'B.TECH', package: '39 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place1.png', badge: 'https://www.united.ac.in/frontend/images/placem-1.png'
+  },
+  {
+    name: 'Abhishek Singh', degree: 'B.TECH', package: '36 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place2.png', badge: 'https://www.united.ac.in/frontend/images/placem-2.png'
+  },
+  {
+    name: 'Shubham Jaiswal', degree: 'B.TECH', package: '29 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place3.png', badge: 'https://www.united.ac.in/frontend/images/placem-3.png'
+  },
+  {
+    name: 'Vineet Mishra', degree: 'B.TECH', package: '29.5 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place4.png', badge: 'https://www.united.ac.in/frontend/images/placem-4.png'
+  },
+  {
+    name: 'Priya Singh', degree: 'B.TECH', package: '25 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place5.png', badge: 'https://www.united.ac.in/frontend/images/placem-4.png'
+  },
+  {
+    name: 'Himanshu Tewari', degree: 'B.TECH', package: '57.6 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place6.png', badge: 'https://www.united.ac.in/frontend/images/placem-5.png'
+  },
+  {
+    name: 'Shubhra Srivastava', degree: 'B.TECH', package: '50 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place7.png', badge: 'https://www.united.ac.in/frontend/images/placem-6.png'
+  },
+  {
+    name: 'Smriti Das', degree: 'B.TECH', package: '24 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place8.png', badge: 'https://www.united.ac.in/frontend/images/placem-7.png'
+  },
+  {
+    name: 'Prashant Mishra', degree: 'B.TECH', package: '21.30 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place9.png', badge: 'https://www.united.ac.in/frontend/images/placem-8.png'
+  },
+  {
+    name: 'Akansha Singh', degree: 'B.TECH', package: '16.9 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place10.png', badge: 'https://www.united.ac.in/frontend/images/placem-9.png'
+  },
+  {
+    name: 'Aditi Verma', degree: 'B.TECH', package: '14 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place11.png', badge: 'https://www.united.ac.in/frontend/images/placem-10.png'
+  },
+  {
+    name: 'Akansha Shukla', degree: 'B.Pharm', package: '10 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place12.png', badge: 'https://www.united.ac.in/frontend/images/placem-11.png'
+  },
+  {
+    name: 'Amit Kumar', degree: 'B.TECH', package: '10.7 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place13.png', badge: 'https://www.united.ac.in/frontend/images/placem-12.png'
+  },
+  {
+    name: 'Pravisha Jaiswal', degree: 'BBA', package: '10 LPA', avatar: 'https://www.united.ac.in/frontend/images/top-place14.png', badge: 'https://www.united.ac.in/frontend/images/placem-13.png'
+  }
 ];
 
 const STUDENT_TESTIMONIALS = [
@@ -212,7 +257,19 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
   // Local tab state fallback if props are not connected
   const [localTab, setLocalTab] = useState('about');
   const activeTabId = setSelectedTab ? selectedTab : localTab;
-  
+
+  // Top placements slider state
+  const [topPlacementIndex, setTopPlacementIndex] = useState(0);
+  const topPlacementCount = TOP_PLACEMENTS.length;
+  const currentTopPlacement = TOP_PLACEMENTS[topPlacementIndex];
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setTopPlacementIndex((current) => (current + 1) % topPlacementCount);
+    }, 4200);
+    return () => window.clearInterval(interval);
+  }, [topPlacementCount]);
+
   // Handles setting the active tab
   const handleTabChange = (id: string) => {
     if (setSelectedTab) {
@@ -487,19 +544,57 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                     </div>
 
                     {/* Head T&P Message Block */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 p-6 rounded-3xl relative overflow-hidden">
-                      <div className="absolute top-4 right-4 text-rose-500/5 font-serif text-9xl font-black select-none leading-none">“</div>
-                      <div className="flex flex-col sm:flex-row gap-6 items-start">
-                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-tr from-[#93000f] to-[#4a0404] text-white flex flex-col items-center justify-center font-extrabold text-xs shrink-0 shadow-md">
-                          <span className="text-xl font-black">TPO</span>
-                          <span className="text-[9px] tracking-widest">OFFICE</span>
+                    <div className="relative p-6 sm:p-8 lg:p-10 bg-white dark:bg-zinc-950 border border-rose-100 dark:border-zinc-800 rounded-3xl shadow-sm">
+                      <div className="flex flex-col lg:flex-row gap-8 items-start">
+                        <div className="relative shrink-0">
+                          <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-crimson-red/25 to-rose-300/10 blur-xl" />
+                          <div className="relative h-36 w-36 sm:h-40 sm:w-40 rounded-[28px] overflow-hidden border-4 border-white shadow-xl ring-1 ring-zinc-200 bg-zinc-100">
+                            <img
+                              alt="Dr. Khwaja Rameezuddin"
+                              className="h-full w-full object-cover object-center"
+                              src="https://anjumanengg.edu.in/UserData/uploads/pages/1016/t&p-head.jpeg"
+                            />
+                          </div>
                         </div>
-                        <div className="space-y-2 text-left">
-                          <span className="text-[10px] font-extrabold uppercase tracking-widest text-crimson-red dark:text-rose-400 bg-rose-50 dark:bg-rose-950/20 px-2 py-0.5 rounded">TPO MESSAGE</span>
-                          <h4 className="font-sans font-black text-sm text-zinc-900 dark:text-white">Dr. Sameer G. Kene — T&P Head</h4>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400 italic leading-relaxed">
-                            &quot;At Anjuman Nagpur, our core focus lies in providing equal opportunity for excellence. We have designed progressive, semester-wise aptitude pathways that build skills incrementally. This process reduces anxiety and increases candidate acceptance rates across major corporations. We welcome hiring partners to explore our specialized student resource bank.&quot;
+
+                        <div className="flex-1 space-y-4 pt-1">
+                          <span className="inline-flex items-center bg-rose-50 dark:bg-rose-950/40 text-crimson-red font-bold text-[10px] sm:text-xs px-3 py-1.5 rounded-full uppercase tracking-[0.18em] border border-rose-100 dark:border-rose-900/60">
+                            Training & Placement Desk
+                          </span>
+                          <h3 className="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white">
+                            Training & Placement Cell Message
+                          </h3>
+                          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-medium">
+                            Dr. Khwaja Rameezuddin — Head, Training & Placement, ACET Nagpur
                           </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-8 border-t border-zinc-200 dark:border-zinc-700 pt-8">
+                        <div className="rounded-3xl border border-rose-100 dark:border-rose-900/60 bg-gradient-to-r from-rose-50 via-white to-rose-50 dark:from-rose-950/30 dark:via-zinc-900 dark:to-rose-950/20 p-5 sm:p-6 shadow-sm">
+                          <p className="font-bold italic text-base sm:text-xl leading-relaxed text-zinc-800 dark:text-zinc-100">
+                            "At Anjuman Nagpur, our core focus lies in providing equal opportunity for excellence. We have designed progressive, semester-wise aptitude pathways that build skills incrementally. This process reduces anxiety and increases candidate acceptance rates across major corporations. We welcome hiring partners to explore our specialized student resource bank."
+                          </p>
+                          <p className="mt-4 text-right font-semibold text-zinc-700 dark:text-zinc-200 text-sm sm:text-base">
+                            — Dr. Khwaja Rameezuddin
+                          </p>
+                        </div>
+
+                        <div className="mt-8 space-y-5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-8">
+                          <p className="font-semibold text-zinc-800 dark:text-zinc-100 text-base sm:text-lg">Dear Students, Parents and Stakeholders</p>
+                          <p>The aim of our institution is to create an environment of high-quality teaching and learning in which students are encouraged to innovate and approach problems with a courageous and creative mindset.</p>
+                          <p>We are committed to creating an ecosystem that provides technical skills while also fostering innovation, creativity, and ethical values among students. We are dedicated to building an educational system that inspires and equips students to solve real-world problems and contribute meaningfully to industry and society.</p>
+                          <p>Our faculty comprises highly qualified and experienced professionals, passionate about nurturing young minds and helping them achieve their fullest potential.</p>
+                          <p>We continuously strive to provide opportunities that strengthen career readiness, leadership, and holistic development for every student.</p>
+                          <p>Our alumni hold prominent roles in esteemed organisations both domestically and internationally, reflecting the quality of education and values instilled at ACET.</p>
+                          <p>I cordially encourage you to visit our ACET campus and witness the excellence, spirit, and distinction that define our institution.</p>
+                        </div>
+
+                        <div className="mt-8 flex justify-end">
+                          <div className="text-right border-t border-zinc-200 dark:border-zinc-700 pt-5">
+                            <p className="font-bold text-zinc-900 dark:text-white text-base sm:text-lg">Dr. Khwaja Rameezuddin</p>
+                            <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1">Head, Training & Placement</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -617,7 +712,7 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                     {/* Header Details */}
                     <div>
                       <h2 className="font-sans font-black text-xl sm:text-2xl text-zinc-900 dark:text-white">
-                        Outstanding Placements — Proud of our Achievers
+                        Outstanding Placements ΓÇö Proud of our Achievers
                       </h2>
                       <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium mt-1">
                         Explore our recently selected students and see where their diligence has taken them.
@@ -655,6 +750,83 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
 
                     </div>
 
+                    {/* Top Placements Carousel */}
+                    <div className="space-y-6">
+                      <div className="widget-title mb-4">
+                        <h2 className="font-sans font-black text-2xl sm:text-3xl text-zinc-900 dark:text-white">Our Top Placements</h2>
+                      </div>
+                      <div className="top-place relative overflow-hidden rounded-[32px] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+                        <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-white to-rose-50 opacity-80 dark:opacity-30" />
+                        <div className="relative grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-6 items-center p-6 sm:p-8">
+                          <div className="relative flex items-center justify-center rounded-[36px] bg-rose-100/60 dark:bg-zinc-900/80 p-6 overflow-hidden">
+                            <div className="absolute -left-10 top-2 h-32 w-32 rounded-full bg-sky-500/20 blur-3xl" />
+                            <div className="absolute -right-8 bottom-4 h-28 w-28 rounded-full bg-rose-500/20 blur-3xl" />
+                            <button
+                              type="button"
+                              onClick={() => setTopPlacementIndex((prev) => (prev - 1 + topPlacementCount) % topPlacementCount)}
+                              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-zinc-700 shadow-lg transition hover:bg-white dark:bg-zinc-950 dark:text-white"
+                              aria-label="Previous placement"
+                            >
+                              <ChevronLeft size={20} />
+                            </button>
+                            <div className="relative z-10 flex h-72 w-72 items-center justify-center rounded-full bg-white shadow-2xl overflow-hidden border-8 border-white dark:border-zinc-950">
+                              <img
+                                src={currentTopPlacement.avatar}
+                                alt={currentTopPlacement.name}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setTopPlacementIndex((prev) => (prev + 1) % topPlacementCount)}
+                              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-zinc-700 shadow-lg transition hover:bg-white dark:bg-zinc-950 dark:text-white"
+                              aria-label="Next placement"
+                            >
+                              <ChevronRight size={20} />
+                            </button>
+                          </div>
+                          <div className="relative overflow-hidden rounded-[36px] bg-zinc-950/95 p-8 shadow-[0_35px_80px_-55px_rgba(15,23,42,0.8)] text-white">
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.18),_transparent_35%)]" />
+                            <div className="relative z-10 space-y-5">
+                              <span className="inline-flex items-center rounded-full bg-crimson-red px-4 py-2 text-[11px] font-black uppercase tracking-[0.3em] text-white shadow-sm">
+                                {currentTopPlacement.degree}
+                              </span>
+                              <h3 className="text-3xl sm:text-4xl font-black tracking-tight uppercase leading-tight">
+                                {currentTopPlacement.name}
+                              </h3>
+                              <div className="text-base font-semibold uppercase tracking-[0.18em] text-rose-200">Package</div>
+                              <div className="mt-3 inline-flex items-center rounded-full bg-gradient-to-r from-sky-600 to-sky-400 px-6 py-4 text-2xl font-black text-white shadow-lg">
+                                {currentTopPlacement.package}
+                              </div>
+                              <div className="mt-6 flex items-center gap-4">
+                                <div className="h-16 w-36 overflow-hidden rounded-3xl bg-white p-3 shadow-inner">
+                                  <img
+                                    src={currentTopPlacement.badge}
+                                    alt={`${currentTopPlacement.name} badge`}
+                                    className="h-full w-full object-contain"
+                                  />
+                                </div>
+                                <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">
+                                  Selected through ACET placement excellence
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="relative z-10 flex justify-center gap-2 pb-6">
+                          {TOP_PLACEMENTS.map((_, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => setTopPlacementIndex(idx)}
+                              className={`h-3 w-3 rounded-full transition ${topPlacementIndex === idx ? 'bg-crimson-red shadow-lg' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                              aria-label={`Show slide ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    
                     {/* Students Grid List */}
                     {filteredStudents.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -925,7 +1097,7 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                     {/* Header Details */}
                     <div>
                       <h2 className="font-sans font-black text-xl sm:text-2xl text-zinc-900 dark:text-white">
-                        T & P Activity Gallery — Capturing Success
+                        T & P Activity Gallery ΓÇö Capturing Success
                       </h2>
                       <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium mt-1">
                         A visual capture of our recruitment pool drives, technical bootcamps, industrial interactions, and felicitation events.
@@ -1022,7 +1194,7 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                           <div className="flex gap-3 text-xs text-zinc-600 dark:text-zinc-400 font-semibold pt-1 border-t border-zinc-100 dark:border-zinc-800">
                             <Clock size={16} className="text-crimson-red shrink-0 mt-0.5" />
                             <p className="text-[11px]">
-                              Office hours: Monday to Saturday — 10:00 AM to 5:30 PM. (Closed on regional holidays).
+                              Office hours: Monday to Saturday ΓÇö 10:00 AM to 5:30 PM. (Closed on regional holidays).
                             </p>
                           </div>
                         </div>
