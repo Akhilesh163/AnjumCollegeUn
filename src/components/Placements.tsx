@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Award, 
@@ -73,17 +73,39 @@ const RECRUITERS = [
   { name: 'Byju\'s', sector: 'Consulting & Sales', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Byju%27s_Logo.svg' }
 ];
 
-const PLACED_STUDENTS = [
-  { name: 'Ayesha Khan', branch: 'Computer Science & Engineering', company: 'Microsoft', package: '22.0 LPA', year: '2025-26', gender: 'F' },
-  { name: 'Rohan Deshpande', branch: 'Artificial Intelligence & Data Science', company: 'Amazon', package: '18.0 LPA', year: '2025-26', gender: 'M' },
-  { name: 'Yashwardhan Shukla', branch: 'Computer Science & Engineering', company: 'Google', package: '20.0 LPA', year: '2025-26', gender: 'M' },
-  { name: 'Sneha Patil', branch: 'Electronics & Telecommunication', company: 'TCS Digital', package: '7.5 LPA', year: '2025-26', gender: 'F' },
-  { name: 'Mohammad Faizan', branch: 'Computer Science & Engineering', company: 'Persistent Systems', package: '9.0 LPA', year: '2025-26', gender: 'M' },
-  { name: 'Sara Yasmin', branch: 'Electrical Engineering', company: 'Torrent Power', package: '7.2 LPA', year: '2025-26', gender: 'F' },
-  { name: 'Abdur Rahman', branch: 'Mechanical Engineering', company: 'Jindal Steel', package: '8.0 LPA', year: '2025-26', gender: 'M' },
-  { name: 'Nikita Borkar', branch: 'Computer Science & Engineering', company: 'Accenture', package: '8.2 LPA', year: '2025-26', gender: 'F' },
-  { name: 'Sameer Sheikh', branch: 'Civil Engineering', company: 'L&T Construction', package: '6.5 LPA', year: '2025-26', gender: 'M' },
-  { name: 'Huzefa Ahmed', branch: 'Artificial Intelligence & Data Science', company: 'Cognizant', package: '6.2 LPA', year: '2025-26', gender: 'M' }
+const PLACED_STUDENTS = [];
+
+const RECOGNITION_PARTNERS = [
+  {
+    name: 'SHL',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/shl.webp',
+    caption: 'National Employability Award 2024.'
+  },
+  {
+    name: 'Bosch',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/bosch.webp',
+    caption: 'Highest campus selections in North India.'
+  },
+  {
+    name: 'Infosys',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/infosys.webp',
+    caption: 'Strong industry-academia collaboration.'
+  },
+  {
+    name: 'Cognizant',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/cognizant.webp',
+    caption: 'Trusted hiring partner for placement offers.'
+  },
+  {
+    name: 'Capgemini',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/capgemini.webp',
+    caption: 'Generating highest number of placement offers.'
+  },
+  {
+    name: 'Informatica',
+    image: 'https://www.lpu.in/lpu-assets/images/tieups-logo/informatica.webp',
+    caption: 'Trusted university hiring partner.'
+  }
 ];
 
 const TOP_PLACEMENTS = [
@@ -149,6 +171,57 @@ const STUDENT_TESTIMONIALS = [
     company: 'TCS Digital (ETC)',
     quote: 'Being a core engineering student, I was nervous about software rounds. The pre-placement bootcamps on Python and mock coding tests made all the difference. Thank you T&P!',
     color: 'border-l-4 border-l-[#1f57a4]'
+  }
+];
+
+const STUDENT_PLACEMENT_SUCCESS = [
+  {
+    name: 'Anubhav Gupta',
+    role: 'Technology Consultant',
+    company: 'Adidas',
+    year: 'B.Tech EE, 2016',
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+    quote: 'Adidas, Technology Consultant; 34.7 LPA, I would like to extend my heartfelt thanks to United Group of Institutions for their invaluable support extended to me throughout my engineering journey. The knowledge and experiences I have gained have greatly shaped my career and will continue to guide me in the future.'
+  },
+  {
+    name: 'Kavish Srivastava',
+    role: 'Senior Technical Lead',
+    company: 'Ernst and Young (EY)',
+    year: 'B.Tech ECE, 2016',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+    quote: 'Ernst and Young (EY), Senior Technical Lead, 18 LPA. The training programs and CRC support were a launchpad for my professional journey. The courses, workshops, and practical exercises were designed to enhance our technical knowledge while emphasizing leadership, communication, and teamwork.'
+  },
+  {
+    name: 'Mayank Shukla',
+    role: 'Vice President',
+    company: 'Wells Fargo',
+    year: 'B.Tech EE, 2012',
+    image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
+    quote: 'Vice President, Wells Fargo, 38 LPA. The training and support from the CRC team played a key role in shaping my professional skills and boosting my confidence. United didn’t just prepare me for a job, it prepared me for a career.'
+  },
+  {
+    name: 'Fahmi Hassan',
+    role: 'Manager',
+    company: 'Cognizant',
+    year: 'B.Tech EE, 2013',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    quote: 'Manager, Cognizant, 32 LPA. UCER prepared me with both technical skills and soft skills. The CRC Department and T&P Cell provided ongoing support beyond academics, empowering me to connect with the real world and succeed.'
+  },
+  {
+    name: 'Bipro Chakraborty',
+    role: 'Payment Specialist',
+    company: 'Oracle',
+    year: 'B.Tech EN, 2019',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+    quote: 'Payment Specialist - IC2, Oracle. The college believed in me and helped me land offers from Wipro and Authbridge. The CRC team’s support and guidance made the difference in my journey.'
+  },
+  {
+    name: 'Smriti Das',
+    role: 'Software Engineer',
+    company: 'Infosys',
+    year: 'B.Tech IT, 2022',
+    image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80',
+    quote: 'GAIL India Limited, 21.30 LPA. The faculty and CRC support prepared me for top companies and helped me grow beyond academics. I am proud of the support and mentorship from United Group of Institution.'
   }
 ];
 
@@ -247,6 +320,15 @@ const GALLERY_IMAGES = [
   }
 ];
 
+const SUPER_ACHIEVERS = [
+  { name: 'Himanshu Tewari', degree: '(B.Tech, EE Branch)', company: 'TESLA (57.6 LPA)', image: 'https://www.united.ac.in/frontend/images/himanshu-s.webp' },
+  { name: 'Ritesh Kumar Pandey', degree: '(B.Tech, CS Branch)', company: 'CASHFREE PAYMENTS (39 LPA)', image: 'https://www.united.ac.in/frontend/images/Ritesh-s.webp' },
+  { name: 'MUKESH YADAV', degree: '(BCA)', company: 'GENPACT (26 LPA)', image: 'https://www.united.ac.in/frontend/images/mukesh-s.webp' },
+  { name: 'Mohammad Imran', degree: '(MBA)', company: 'Unilever (13 LPA)', image: 'https://www.united.ac.in/frontend/images/Achiev-4.webp' },
+  { name: 'Shivam Bahadur', degree: '(B.Tech., EC Branch)', company: 'Microsoft (25 LPA)', image: 'https://www.united.ac.in/frontend/images/Achiev-5.webp' },
+  { name: 'Shubham Gupta', degree: '(B.Tech., CS Branch)', company: 'Amazon (40 LPA)', image: 'https://www.united.ac.in/frontend/images/Achiev-6.webp' }
+];
+
 interface PlacementsProps {
   selectedTab?: string;
   setSelectedTab?: (tab: string) => void;
@@ -270,6 +352,17 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
     return () => window.clearInterval(interval);
   }, [topPlacementCount]);
 
+  const [successSlideIndex, setSuccessSlideIndex] = useState(0);
+  const successCount = STUDENT_PLACEMENT_SUCCESS.length;
+  const currentSuccessStory = STUDENT_PLACEMENT_SUCCESS[successSlideIndex];
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setSuccessSlideIndex((current) => (current + 1) % successCount);
+    }, 5200);
+    return () => window.clearInterval(interval);
+  }, [successCount]);
+
   // Handles setting the active tab
   const handleTabChange = (id: string) => {
     if (setSelectedTab) {
@@ -291,6 +384,30 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
   // State managers for student placed search
   const [placedSearch, setPlacedSearch] = useState('');
   const [placedBranch, setPlacedBranch] = useState('All');
+
+  // Recognition carousel state
+  const [recognitionIndex, setRecognitionIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setRecognitionIndex((current) => (current + 1) % RECOGNITION_PARTNERS.length);
+    }, 3200);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const visibleRecognitionPartners = Array.from({ length: 4 }, (_, index) => {
+    const partnerIndex = (recognitionIndex + index) % RECOGNITION_PARTNERS.length;
+    return RECOGNITION_PARTNERS[partnerIndex];
+  });
+
+  const goToRecognitionSlide = (direction: 'prev' | 'next') => {
+    setRecognitionIndex((current) => {
+      if (direction === 'prev') {
+        return (current - 1 + RECOGNITION_PARTNERS.length) % RECOGNITION_PARTNERS.length;
+      }
+      return (current + 1) % RECOGNITION_PARTNERS.length;
+    });
+  };
 
   // Inquiry Form States
   const [companyName, setCompanyName] = useState('');
@@ -376,8 +493,8 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
   };
 
   return (
-    <div id="placements-container" className="py-12 px-4 sm:px-6 md:px-12 bg-[#fffbfb] dark:bg-zinc-950 text-left min-h-screen">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div id="placements-container" className="py-12 px-6 md:px-8 lg:px-12 bg-[#fffbfb] dark:bg-zinc-950 text-left min-h-screen">
+      <div className="w-full max-w-full mx-auto space-y-8">
         
         {/* Breadcrumb Navigation Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-rose-100/40 dark:border-zinc-800">
@@ -404,7 +521,7 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
           <h1 className="font-sans font-black text-3xl sm:text-4xl text-zinc-900 dark:text-white tracking-tight leading-none">
             Training & Placement <span className="text-crimson-red">Cell</span>
           </h1>
-          <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium max-w-2xl leading-relaxed">
+          <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium max-w-full leading-relaxed">
             Developing career pathways, industrial readiness, and locking top multinational packages for students at Anjuman Sadar Nagpur campus.
           </p>
         </div>
@@ -413,7 +530,7 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT HAND: 8 Placement Pages Selector Sidebar (Desktop Only) */}
-          <div className="hidden lg:col-span-3 lg:flex flex-col gap-1.5 bg-white dark:bg-zinc-900/60 p-4 rounded-3xl border border-rose-100/30 dark:border-zinc-800/80 shadow-md">
+          <div className="hidden lg:col-span-3 lg:flex flex-col gap-1.5 bg-white dark:bg-zinc-900/60 p-6 md:p-8 rounded-3xl border border-rose-100/30 dark:border-zinc-800/80 shadow-md">
             <span className="text-[10px] font-black tracking-widest text-zinc-400 dark:text-zinc-500 uppercase px-3 pb-2 block border-b border-zinc-100 dark:border-zinc-800/50 mb-1">
               Placements Nav Menu
             </span>
@@ -524,78 +641,143 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                       })}
                     </div>
 
-                    {/* Vision & Mission Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="p-6 bg-rose-50/20 dark:bg-rose-950/5 border border-rose-100/40 dark:border-rose-900/10 rounded-2xl space-y-2">
-                        <span className="text-[10px] font-black tracking-widest text-crimson-red dark:text-rose-400 uppercase">T&P CELL VISION</span>
-                        <h3 className="font-sans font-extrabold text-sm text-zinc-900 dark:text-white">To Build Sustainable Global Careers</h3>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                          To establish a strong, unbreakable linkage with elite technology developers and core engineering conglomerates, turning every student into a reliable asset ready to address complex real-world challenges.
-                        </p>
+                    {/* Vision & Mission Section */}
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                      <div className="bg-rose-600 text-white rounded-[28px] overflow-hidden flex items-center">
+                        <div className="p-8 lg:p-12">
+                          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-rose-100">T&P CELL VISION</span>
+                          <h2 className="mt-4 text-3xl sm:text-4xl font-black">To Build Sustainable Global Careers</h2>
+                          <p className="mt-4 text-sm sm:text-base leading-8 text-rose-100/90">
+                            To establish a strong, unbreakable linkage with elite technology developers and core engineering conglomerates, turning every student into a reliable asset ready to address complex real-world challenges.
+                          </p>
+                        </div>
                       </div>
 
-                      <div className="p-6 bg-emerald-500/[0.02] dark:bg-emerald-950/5 border border-emerald-500/10 dark:border-emerald-900/10 rounded-2xl space-y-2">
-                        <span className="text-[10px] font-black tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">T&P CELL MISSION</span>
-                        <h3 className="font-sans font-extrabold text-sm text-zinc-900 dark:text-white">Continuous Competency Infusion</h3>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                          To infuse high-level numerical aptitude, algorithmic coding, mock presentation experience, and personal interview resilience directly into the student curriculum starting from the very first semester.
-                        </p>
+                      <div className="relative hidden lg:block rounded-[28px] overflow-hidden">
+                        <img
+                          src="https://www.united.ac.in/frontend/images/vision.webp"
+                          alt="Vision"
+                          className="w-full h-full object-cover min-h-[360px]"
+                        />
+                      </div>
+
+                      <div className="relative hidden lg:block rounded-[28px] overflow-hidden">
+                        <img
+                          src="https://www.united.ac.in/frontend/images/mission.webp"
+                          alt="Mission"
+                          className="w-full h-full object-cover min-h-[360px]"
+                        />
+                      </div>
+
+                      <div className="bg-emerald-700 text-white rounded-[28px] overflow-hidden flex items-center">
+                        <div className="p-8 lg:p-12">
+                          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-emerald-100">T&P CELL MISSION</span>
+                          <h2 className="mt-4 text-3xl sm:text-4xl font-black">Continuous Competency Infusion</h2>
+                          <p className="mt-4 text-sm sm:text-base leading-8 text-emerald-100/90">
+                            United Group of Institutions is dedicated to providing world-class education that empowers students to achieve academic, professional, and personal success. We aim to foster an environment that encourages creativity, collaboration, and lifelong learning while preparing students to excel in dynamic global industries. Through a commitment to research, innovation, and social responsibility, UGI aspires to shape future leaders and contribute to the advancement of society.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
                     {/* Head T&P Message Block */}
                     <div className="relative p-6 sm:p-8 lg:p-10 bg-white dark:bg-zinc-950 border border-rose-100 dark:border-zinc-800 rounded-3xl shadow-sm">
-                      <div className="flex flex-col lg:flex-row gap-8 items-start">
-                        <div className="relative shrink-0">
-                          <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-crimson-red/25 to-rose-300/10 blur-xl" />
-                          <div className="relative h-36 w-36 sm:h-40 sm:w-40 rounded-[28px] overflow-hidden border-4 border-white shadow-xl ring-1 ring-zinc-200 bg-zinc-100">
-                            <img
-                              alt="Dr. Khwaja Rameezuddin"
-                              className="h-full w-full object-cover object-center"
-                              src="https://anjumanengg.edu.in/UserData/uploads/pages/1016/t&p-head.jpeg"
-                            />
+                      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                        <div className="lg:col-span-12 space-y-8">
+                          <div className="relative p-6 sm:p-8 lg:p-10">
+                            <div className="flex flex-col lg:flex-row gap-8 items-start">
+                              <div className="relative shrink-0">
+                                <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-crimson-red/25 to-rose-300/10 blur-xl"></div>
+                                <div className="relative h-36 w-36 sm:h-40 sm:w-40 rounded-[28px] overflow-hidden border-4 border-white shadow-xl ring-1 ring-zinc-200 bg-zinc-100">
+                                  <img alt="Dr. Syed Mohammad Ali" className="h-full w-full object-cover object-center" src="/principle-new-img.jpeg" />
+                                </div>
+                              </div>
+
+                              <div className="flex-1 space-y-4 pt-1">
+                                <span className="inline-flex items-center bg-rose-50 dark:bg-rose-950/40 text-crimson-red font-bold text-[10px] sm:text-xs px-3 py-1.5 rounded-full uppercase tracking-[0.18em] border border-rose-100 dark:border-rose-900/60">Principal's Desk</span>
+                                <h3 className="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white">Principal's Message</h3>
+                                <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-medium">Dr. Syed Mohammad Ali — Principal, ACET Nagpur</p>
+                              </div>
+                            </div>
+
+                            <div className="mt-8 border-t border-zinc-200 dark:border-zinc-700 pt-8">
+                              <div className="rounded-3xl border border-rose-100 dark:border-rose-900/60 bg-gradient-to-r from-rose-50 via-white to-rose-50 dark:from-rose-950/30 dark:via-zinc-900 dark:to-rose-950/20 p-5 sm:p-6 shadow-sm">
+                                <p className="font-bold italic text-base sm:text-xl leading-relaxed text-zinc-800 dark:text-zinc-100">"Engineers should possess the courage to think different, the courage to invent, the courage to discover the impossible, and the courage to conquer the problems and succeed."</p>
+                                <p className="mt-4 text-right font-semibold text-zinc-700 dark:text-zinc-200 text-sm sm:text-base">— Dr. A.P.J. Abdul Kalam</p>
+                              </div>
+
+                              <div className="mt-8 space-y-5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-8">
+                                <p className="font-semibold text-zinc-800 dark:text-zinc-100 text-base sm:text-lg">Dear Students, Parents and Stakeholders</p>
+                                <p>The aim of our institution is to create an environment of high-quality teaching and learning in which students are encouraged to innovate and approach problems with a courageous and creative mindset.</p>
+                                <p>We are committed to creating an ecosystem that provides technical skills while also fostering innovation, creativity, and ethical values among students. We are dedicated to building an educational system that inspires and equips students to solve real-world problems and contribute meaningfully to industry and society.</p>
+                                <p>Our faculty comprises highly qualified and experienced professionals, passionate about nurturing young minds and helping them achieve their fullest potential.</p>
+                                <p>We continuously strive to provide opportunities that strengthen career readiness, leadership, and holistic development for every student.</p>
+                                <p>Our alumni hold prominent roles in esteemed organisations both domestically and internationally, reflecting the quality of education and values instilled at ACET.</p>
+                                <p>I cordially encourage you to visit our ACET campus and witness the excellence, spirit, and distinction that define our institution.</p>
+                              </div>
+
+                              <div className="mt-8 flex justify-end">
+                                <div className="text-right border-t border-zinc-200 dark:border-zinc-700 pt-5">
+                                  <p className="font-bold text-zinc-900 dark:text-white text-base sm:text-lg">Prof. (Dr.) K. S. Zakiuddin</p>
+                                  <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1">Principal, ACET</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="mt-4 space-y-6">
+                            <div className="rounded-[24px] border border-rose-100/50 bg-white p-6 shadow-sm dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <h4 className="text-lg font-black text-zinc-900 dark:text-white">T &amp; P Cell at a Glance</h4>
+                              <div className="mt-4 grid grid-cols-1 gap-4">
+                                <ul className="space-y-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                                  <li>• Exploring placement opportunities by inviting various companies for campus recruitment of students.</li>
+                                  <li>• Creating a corporate-friendly atmosphere and preparing students to face the rigours of the professional world.</li>
+                                  <li>• Positioning ACET as a preferred destination for MNCs to conduct placement activities.</li>
+                                </ul>
+                                <img className="w-full rounded-2xl object-cover" src="https://anjumanengg.edu.in/images/Slider/banner/tnp-team1.png" alt="T&P Team" />
+                              </div>
+                            </div>
+
+                            <div className="rounded-[24px] border border-rose-100/50 bg-rose-50/60 p-6 shadow-sm dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <h4 className="text-lg font-black text-zinc-900 dark:text-white">Placement Objective</h4>
+                              <ul className="mt-4 space-y-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                                <li>• Assisting students in clarifying academic and career interests through counseling and group sessions.</li>
+                                <li>• Helping students develop successful job search strategies.</li>
+                                <li>• Supporting employers in achieving their hiring goals.</li>
+                                <li>• Serving society through campus-wide career resources and opportunities.</li>
+                                <li>• Acting as a bridge between students, alumni, and the employment community.</li>
+                                <li>• Assisting students in securing final placements with reputed companies.</li>
+                              </ul>
+                            </div>
+
+                            <div className="rounded-[24px] border border-rose-100/50 bg-white p-6 shadow-sm dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <h4 className="text-lg font-black text-zinc-900 dark:text-white">Highlights</h4>
+                              <div className="mt-4 space-y-4 text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                                <ul className="space-y-2">
+                                  <li>• More than 50 companies visited for recruitment.</li>
+                                  <li>• More than 50% students secured roles with leading organisations such as TCS, Coditude, HCLTech, TTEC, Antony Waste Cell, MyCaptain, Volvo, Ashok Leyland, and many more.</li>
+                                  <li>• Highest package offered to students was Rs. 7.50 LPA by MyCaptain.</li>
+                                </ul>
+                                <p>ACET Training &amp; Placement Cell has maintained strong relationships with industries across the country, resulting in an impressive placement record and a growing number of visiting companies.</p>
+                                <div className="rounded-2xl border border-rose-100/50 bg-rose-50/60 p-4 dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                                  <p className="font-black text-zinc-900 dark:text-white">Training Objective</p>
+                                  <p className="mt-2">Training activities are organized throughout the year to prepare students for campus selection programmes, strengthen aptitude, reasoning, soft skills, and communication, and enhance employability.</p>
+                                </div>
+                                <div className="rounded-2xl border border-zinc-100 bg-zinc-50/80 p-4 dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                                  <p className="font-black text-zinc-900 dark:text-white">Training Highlights</p>
+                                  <ul className="mt-2 space-y-2">
+                                    <li>• More than 500 students undertook vocational training during winter and summer vacations.</li>
+                                    <li>• Branch-specific technical training covered C, C++, Data Structures, Core Java, AutoCAD, ANSYS, CREO, PHP Web Designing, HTML, MATLAB, STAADPRO, and PLC-SCADA.</li>
+                                    <li>• Campus-specific training programmes were conducted for dream-company recruitment drives through expert sessions and industry-focused guidance.</li>
+                                    <li>• Career counseling seminars and mentorship sessions were organized throughout the year across departments and semesters.</li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="flex-1 space-y-4 pt-1">
-                          <span className="inline-flex items-center bg-rose-50 dark:bg-rose-950/40 text-crimson-red font-bold text-[10px] sm:text-xs px-3 py-1.5 rounded-full uppercase tracking-[0.18em] border border-rose-100 dark:border-rose-900/60">
-                            Training & Placement Desk
-                          </span>
-                          <h3 className="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white">
-                            Training & Placement Cell Message
-                          </h3>
-                          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-medium">
-                            Dr. Khwaja Rameezuddin — Head, Training & Placement, ACET Nagpur
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="mt-8 border-t border-zinc-200 dark:border-zinc-700 pt-8">
-                        <div className="rounded-3xl border border-rose-100 dark:border-rose-900/60 bg-gradient-to-r from-rose-50 via-white to-rose-50 dark:from-rose-950/30 dark:via-zinc-900 dark:to-rose-950/20 p-5 sm:p-6 shadow-sm">
-                          <p className="font-bold italic text-base sm:text-xl leading-relaxed text-zinc-800 dark:text-zinc-100">
-                            "At Anjuman Nagpur, our core focus lies in providing equal opportunity for excellence. We have designed progressive, semester-wise aptitude pathways that build skills incrementally. This process reduces anxiety and increases candidate acceptance rates across major corporations. We welcome hiring partners to explore our specialized student resource bank."
-                          </p>
-                          <p className="mt-4 text-right font-semibold text-zinc-700 dark:text-zinc-200 text-sm sm:text-base">
-                            — Dr. Khwaja Rameezuddin
-                          </p>
-                        </div>
-
-                        <div className="mt-8 space-y-5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-8">
-                          <p className="font-semibold text-zinc-800 dark:text-zinc-100 text-base sm:text-lg">Dear Students, Parents and Stakeholders</p>
-                          <p>The aim of our institution is to create an environment of high-quality teaching and learning in which students are encouraged to innovate and approach problems with a courageous and creative mindset.</p>
-                          <p>We are committed to creating an ecosystem that provides technical skills while also fostering innovation, creativity, and ethical values among students. We are dedicated to building an educational system that inspires and equips students to solve real-world problems and contribute meaningfully to industry and society.</p>
-                          <p>Our faculty comprises highly qualified and experienced professionals, passionate about nurturing young minds and helping them achieve their fullest potential.</p>
-                          <p>We continuously strive to provide opportunities that strengthen career readiness, leadership, and holistic development for every student.</p>
-                          <p>Our alumni hold prominent roles in esteemed organisations both domestically and internationally, reflecting the quality of education and values instilled at ACET.</p>
-                          <p>I cordially encourage you to visit our ACET campus and witness the excellence, spirit, and distinction that define our institution.</p>
-                        </div>
-
-                        <div className="mt-8 flex justify-end">
-                          <div className="text-right border-t border-zinc-200 dark:border-zinc-700 pt-5">
-                            <p className="font-bold text-zinc-900 dark:text-white text-base sm:text-lg">Dr. Khwaja Rameezuddin</p>
-                            <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1">Head, Training & Placement</p>
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
 
@@ -702,54 +884,65 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                       </p>
                     </div>
 
+                    {/* Recognition Section */}
+                    <div className="mt-6 overflow-hidden rounded-[32px] border border-rose-100/50 bg-gradient-to-br from-rose-50/70 via-white to-amber-50/60 p-6 sm:p-8 lg:p-10 dark:border-zinc-800 dark:from-zinc-900/70 dark:via-zinc-900/60 dark:to-zinc-900/80">
+                      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                        <div className="max-w-2xl">
+                          <p className="text-[10px] font-black uppercase tracking-[0.35em] text-zinc-400 dark:text-zinc-500">Recognition</p>
+                          <h3 className="mt-2 text-xl sm:text-2xl font-black leading-tight text-zinc-900 dark:text-white">
+                            Highly ranked for placements <br className="hidden sm:block" /> by top organisations
+                          </h3>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => goToRecognitionSlide('prev')}
+                            className="rounded-full border border-zinc-200 bg-white p-2.5 text-zinc-600 shadow-sm transition hover:border-crimson-red hover:text-crimson-red dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                            aria-label="Previous"
+                          >
+                            ←
+                          </button>
+                          <button
+                            onClick={() => goToRecognitionSlide('next')}
+                            className="rounded-full border border-zinc-200 bg-white p-2.5 text-zinc-600 shadow-sm transition hover:border-crimson-red hover:text-crimson-red dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                            aria-label="Next"
+                          >
+                            →
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 overflow-hidden">
+                        <div className="flex gap-3 sm:gap-4">
+                          {visibleRecognitionPartners.map((partner, index) => (
+                            <div
+                              key={`${partner.name}-${index}`}
+                              className="w-full shrink-0 px-1 sm:w-1/2 lg:w-1/4"
+                            >
+                              <div className="rounded-2xl border border-zinc-200 bg-white/90 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+                                <img src={partner.image} alt={partner.name} className="mx-auto h-14 w-full object-contain" />
+                                <p className="mt-3 text-center text-[10px] font-semibold leading-5 text-zinc-600 dark:text-zinc-300">
+                                  {partner.caption}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 )}
+
+
+                
+     
+
+
 
                 {/* ==================== 3. STUDENTS PLACED ==================== */}
                 {activeTabId === 'placed' && (
                   <div className="space-y-6">
                     
-                    {/* Header Details */}
-                    <div>
-                      <h2 className="font-sans font-black text-xl sm:text-2xl text-zinc-900 dark:text-white">
-                        Outstanding Placements ΓÇö Proud of our Achievers
-                      </h2>
-                      <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium mt-1">
-                        Explore our recently selected students and see where their diligence has taken them.
-                      </p>
-                    </div>
-
-                    {/* Search & Filter bar */}
-                    <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-rose-100/40 dark:border-zinc-800 pb-5">
-                      
-                      {/* Search box */}
-                      <div className="relative w-full sm:w-72">
-                        <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
-                        <input
-                          type="text"
-                          value={placedSearch}
-                          onChange={(e) => setPlacedSearch(e.target.value)}
-                          placeholder="Search by name or company..."
-                          className="w-full text-xs font-semibold pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl outline-none focus:ring-2 focus:ring-rose-500/10 dark:text-white"
-                        />
-                      </div>
-
-                      {/* Branch selector */}
-                      <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <span className="text-[10px] font-extrabold text-zinc-400 uppercase tracking-wider shrink-0">Branch:</span>
-                        <select
-                          value={placedBranch}
-                          onChange={(e) => setPlacedBranch(e.target.value)}
-                          className="text-xs font-semibold bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-rose-500/10 dark:text-white"
-                        >
-                          {studentBranches.map((b, i) => (
-                            <option key={i} value={b}>{b}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                    </div>
-
                     {/* Top Placements Carousel */}
                     <div className="space-y-6">
                       <div className="widget-title mb-4">
@@ -826,7 +1019,77 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                         </div>
                       </div>
                     </div>
-                    
+
+                    {/* Student Placement Success */}
+                    <div className="relative overflow-hidden rounded-[32px] bg-slate-950 text-white shadow-2xl">
+                      <div className="absolute inset-0 bg-gradient-to-r from-sky-900 via-blue-950 to-slate-950 opacity-95" />
+                      <div className="relative p-6 md:p-8 lg:p-10">
+                        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                          <div className="max-w-3xl">
+                            <p className="text-sm uppercase tracking-[0.35em] text-cyan-300/80">Student Placement Success</p>
+                            <h2 className="mt-3 text-3xl md:text-4xl font-black text-white">Learners to Leaders</h2>
+                            <p className="mt-4 max-w-2xl text-sm text-slate-200 leading-relaxed">
+                              Read first-hand accounts from our placed graduates about how ACET Nagpur’s mentoring and technical workshops guided them to premier corporate offers.
+                            </p>
+                          </div>
+                          <div className="flex gap-3 self-start">
+                            <button
+                              type="button"
+                              onClick={() => setSuccessSlideIndex((prev) => (prev - 1 + successCount) % successCount)}
+                              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-lg transition hover:bg-white/20"
+                              aria-label="Previous success story"
+                            >
+                              <ChevronLeft size={20} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setSuccessSlideIndex((prev) => (prev + 1) % successCount)}
+                              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-lg transition hover:bg-white/20"
+                              aria-label="Next success story"
+                            >
+                              <ChevronRight size={20} />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="mt-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+                          <div className="rounded-[28px] bg-slate-900/85 p-8 shadow-2xl ring-1 ring-white/10">
+                            <div className="mb-6 text-4xl leading-none opacity-10">“”</div>
+                            <p className="text-base leading-relaxed text-slate-100">
+                              {currentSuccessStory.quote}
+                            </p>
+                          </div>
+
+                          <div className="flex flex-col justify-between rounded-[28px] border border-white/10 bg-slate-950/90 p-8 shadow-2xl">
+                            <div className="flex items-center gap-5">
+                              <img
+                                src={currentSuccessStory.image}
+                                alt={currentSuccessStory.name}
+                                className="h-24 w-24 rounded-full object-cover ring-2 ring-cyan-400"
+                              />
+                              <div>
+                                <h3 className="text-2xl font-black text-white">{currentSuccessStory.name}</h3>
+                                <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">{currentSuccessStory.role}</p>
+                                <p className="mt-2 text-sm text-slate-400">{currentSuccessStory.company}</p>
+                                <p className="text-xs uppercase tracking-[0.22em] text-slate-500 mt-1">{currentSuccessStory.year}</p>
+                              </div>
+                            </div>
+                            <div className="mt-6 flex items-center gap-2">
+                              {STUDENT_PLACEMENT_SUCCESS.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => setSuccessSlideIndex(idx)}
+                                  className={`h-2.5 w-2.5 rounded-full transition ${successSlideIndex === idx ? 'bg-cyan-300' : 'bg-white/30'}`}
+                                  aria-label={`View slide ${idx + 1}`}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Students Grid List */}
                     {filteredStudents.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -858,32 +1121,29 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                           </div>
                         ))}
                       </div>
-                    ) : (
-                      <div className="p-12 text-center text-zinc-400 space-y-1">
-                        <Users size={32} className="mx-auto opacity-30 mb-2 text-crimson-red" />
-                        <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-200">No placements found</h4>
-                        <p className="text-xs">Try selecting another branch filter or refining your query.</p>
-                      </div>
-                    )}
+                    ) : null}
 
-                    {/* Student Testimonials */}
-                    <div className="space-y-4 pt-4">
-                      <h3 className="font-sans font-extrabold text-sm uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Student Placement Testimonials</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {STUDENT_TESTIMONIALS.map((t, idx) => (
-                          <div 
-                            key={idx} 
-                            className={`p-5 bg-zinc-50/50 dark:bg-zinc-900/60 rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-all ${t.color}`}
-                          >
-                            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 italic leading-relaxed text-left mb-4">
-                              &quot;{t.quote}&quot;
-                            </p>
-                            <div className="text-left border-t border-zinc-100 dark:border-zinc-800/50 pt-2">
-                              <span className="block font-sans font-extrabold text-xs text-zinc-900 dark:text-white">{t.name}</span>
-                              <span className="block text-[9px] font-black text-crimson-red dark:text-rose-400 uppercase tracking-widest">{t.company}</span>
+                    {/* Super Achievers slider (converted from OWL markup) */}
+                    <div className="container p-5 pt-0 mt-6">
+                      <div className="widget-title mb-4">
+                        <h2 className="text-zinc-900 dark:text-white">Super Achievers</h2>
+                      </div>
+                      <div className="row">
+                        <div className="super-achiv-div position-relative">
+                          <div className="owl-carousel owl-theme text-center owl-loaded owl-drag" id="super-achive-slider">
+                            <div className="flex gap-4 overflow-x-auto py-4">
+                              {SUPER_ACHIEVERS.map((a, idx) => (
+                                <div key={idx} className="keystone-posetion min-w-[350px] mr-6 bg-white/5 rounded-lg shadow-sm">
+                                  <img className="img-fluid w-full h-56 object-cover rounded-t-lg" src={a.image} alt={a.name} />
+                                  <div className="keystone-deta p-3">
+                                    <span className="block font-bold text-zinc-900 dark:text-white">{a.name}</span>
+                                    <p className="text-sm text-zinc-600 dark:text-zinc-300">{a.degree} <br />{a.company}</p>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        ))}
+                        </div>
                       </div>
                     </div>
 
@@ -904,54 +1164,145 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                       </p>
                     </div>
 
-                    {/* Timeline Grid */}
-                    <div className="space-y-6 relative border-l border-rose-100 dark:border-zinc-800 ml-4 pl-6 md:pl-8">
-                      {TRAINING_MODULES.map((module, i) => (
-                        <div key={i} className="relative space-y-2">
-                          
-                          {/* Circle node indicator */}
-                          <div className="absolute -left-[35px] md:-left-[43px] top-1.5 h-6 w-6 rounded-full bg-white dark:bg-zinc-950 border-2 border-crimson-red flex items-center justify-center font-extrabold text-[10px] text-crimson-red">
-                            {i+1}
+                      {/* ESEP block inserted as requested */}
+                      <div className="esep_div bg-white/5 dark:bg-zinc-900/20 p-4 rounded-2xl">
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                          <div className="md:w-1/2">
+                            <div className="widget-title mb-3">
+                              <h2 className="text-2xl font-black text-zinc-900 dark:text-white">Employability Skills Enhancement Program (ESEP)</h2>
+                            </div>
+                            <p className="text-zinc-600 dark:text-zinc-300 mt-2">Under the wide umbrella of ESEP, UGI offers its students a set of 'transferable skills' that are not specific to one particular career path but are generic across all employment sectors.</p>
+                            <p className="text-zinc-600 dark:text-zinc-300 mt-2">UGI knows the current market trend &amp; its needs and also its student's interests &amp; potential. With this understanding and emphasis upon a mix of skills required, ESEP@UGI offers all the in-campus opportunities to the career seekers of United:</p>
+                            <ul className="list-disc list-inside mt-3 text-zinc-600 dark:text-zinc-300 space-y-1">
+                              <li>Gateway to ‘GATE’</li>
+                              <li>Verbal Ability Program (VAP)</li>
+                              <li>Campus Recruitment Training (CRT)</li>
+                              <li>Technical Training (TT)</li>
+                            </ul>
                           </div>
-
-                          <span className="inline-block bg-rose-50 dark:bg-[#2c1c1b] text-crimson-red dark:text-rose-400 text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded">
-                            {module.year}
-                          </span>
-                          
-                          <h3 className="font-sans font-black text-sm sm:text-base text-zinc-900 dark:text-white">
-                            {module.title}
-                          </h3>
-                          
-                          <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-3xl text-left">
-                            {module.description}
-                          </p>
-
-                          {/* Highlights Badges */}
-                          <div className="flex flex-wrap gap-1.5 pt-1.5">
-                            {module.highlights.map((highlight, idx) => (
-                              <span 
-                                key={idx} 
-                                className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800 text-[10px] font-semibold text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-md"
-                              >
-                                {highlight}
-                              </span>
-                            ))}
+                          <div className="md:w-1/2 mt-4 md:mt-0">
+                            <div className="esep_imgBox rounded-lg overflow-hidden">
+                              <img src="https://www.united.ac.in/frontend/images/esepmg.webp" alt="ESEP" className="w-full h-auto object-cover" />
+                            </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-
-                    {/* Partner agencies block */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800 space-y-4">
-                      <span className="text-[10px] font-black tracking-widest text-zinc-400 dark:text-zinc-500 uppercase block">Hiring Training Partners</span>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        {['Global Talent Track', 'FACE Academy', 'AMCAT Evaluations', 'Barclays Training'].map((agency, idx) => (
-                          <div key={idx} className="bg-white dark:bg-zinc-950 p-3 rounded-xl border border-zinc-150/40 dark:border-zinc-800 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm">
-                            {agency}
-                          </div>
-                        ))}
                       </div>
-                    </div>
+
+                      {/* Campus Recruitment Training block moved to Training Conducted */}
+                      <div className="mt-6 rounded-3xl border border-rose-100/40 bg-white p-6 shadow-sm dark:border-zinc-800/50 dark:bg-zinc-900/30">
+                        <div className="space-y-4">
+                          <h2 className="text-xl font-black text-zinc-900 dark:text-white">Campus Recruitment Training (CRT)</h2>
+                          <p className="text-zinc-600 dark:text-zinc-300">The industry is always on the lookout for students who are vibrant, energetic individuals and ready to accept challenges with good academic background, open to learning even at work and more importantly with good communication skills. The Recruitment process for various companies is rigorous and requires every student to enhance aptitude and attitude skills, for which UNITED has a comprehensive program designed to train students for all the stages of Campus Recruitments.</p>
+                          <p className="text-zinc-600 dark:text-zinc-300">This programme is updated on a regular basis to keep pace with the changes in the recruitment procedures adopted by various companies. The program has different modules for preparing the job aspirant to tackle the interview process like:</p>
+                          <ul className="list-disc list-inside mt-3 text-zinc-600 dark:text-zinc-300 space-y-1">
+                            <li>Written Test or Aptitude Test. (English/Quants/Reasoning)</li>
+                            <li>Programming Skills Development (PSD) Program</li>
+                            <li>Group Discussions</li>
+                            <li>Pre-Placement Interviews</li>
+                            <li>Job-specific Interview Prep-Camps</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 rounded-3xl border border-rose-100/40 bg-white p-5 shadow-sm dark:border-zinc-800/50 dark:bg-zinc-900/30">
+                        <div className="flex items-start gap-4">
+                          <div className="edge_icon flex-shrink-0">
+                            <img src="https://www.united.ac.in/frontend/images/book2.png" alt="" className="w-12 h-12 object-contain" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="widget-title mb-3">
+                              <h2 className="text-xl font-black text-zinc-900 dark:text-white">Verbal Ability Program (VAP) &amp; Soft Skills Training</h2>
+                            </div>
+                            <p className="pt-2 text-zinc-600 dark:text-zinc-300">'Verbal Ability Program' (VAP) is another unique feature of UGI which gets motivation from the alarmingly need of improvement in English Proficiency/Communication and Aptitude along with the other Soft Skills, which often limit student's chances of landing a job.</p>
+                            <p className="mt-2 text-zinc-600 dark:text-zinc-300">The passionate team of experienced faculty members at United makes the students work upon their Intelligence Quotient (IQ) covering Numerical, Analytical and Reasoning skills along with English Proficiency and also their Emotional Quotient (EQ) covering their Attitude, Communication, Interpersonal and decision-making skills etc.</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Training Programs - modern card layout */}
+                      <div className="mt-6 overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+                        <div className="relative">
+                          <img className="h-56 w-full object-cover" src="https://anjumanengg.edu.in/UserData/uploads/pages/1019/ImageMain.jpg" alt="Training Programs" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/85 via-zinc-900/50 to-transparent" />
+                          <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                            <div className="inline-flex items-center gap-2 rounded-full bg-crimson-red/90 px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-white backdrop-blur-sm">
+                              <Sparkles size={12} />
+                              Career Readiness Journey
+                            </div>
+                            <h3 className="mt-3 text-2xl font-black text-white">Our Training Programmes</h3>
+                            <p className="mt-2 max-w-2xl text-sm text-zinc-200">
+                              Training activities are organized throughout the year to prepare students for campus selection programs with strong aptitude, communication, and professional readiness.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="grid gap-6 p-6 md:p-8 lg:grid-cols-[1.1fr_0.9fr]">
+                          <div className="space-y-6">
+                            <div className="rounded-2xl border border-rose-100/50 bg-rose-50/60 p-5 dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <div className="mb-3 flex items-center gap-2">
+                                <Target size={16} className="text-crimson-red" />
+                                <h4 className="text-lg font-black text-zinc-900 dark:text-white">Training Objective</h4>
+                              </div>
+                              <p className="text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                                To succeed in today’s competitive environment, it is essential for students to be technically strong while also excelling in aptitude, reasoning, soft skills, and communication. These programmes are designed to strengthen employability and confidence.
+                              </p>
+                            </div>
+
+                            <div className="rounded-2xl border border-rose-100/50 bg-rose-50/70 p-5 dark:border-rose-900/20 dark:bg-rose-950/10">
+                              <h4 className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">Highlights</h4>
+                              <ol className="space-y-3 text-sm leading-7 text-zinc-700 dark:text-zinc-300">
+                                <li>More than 500 students undertake minimum vocational training during winter and summer vacations.</li>
+                                <li>Branch-specific technical training is provided in areas such as C, C++, Data Structures, Core Java, AutoCAD, ANSYS, CREO, PHP Web Designing, HTML, MATLAB, STAADPRO, and PLC-SCADA.</li>
+                                <li>Campus-specific training programmes are organized for dream-company recruitment drives through expert sessions and industry-focused guidance.</li>
+                                <li>Career counseling seminars and mentorship programmes are conducted throughout the year for students across departments and semesters.</li>
+                              </ol>
+                            </div>
+                          </div>
+
+                          <div className="space-y-6">
+                            <div className="rounded-2xl border border-rose-100/40 bg-white p-5 shadow-sm dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <div className="mb-3 flex items-center gap-2">
+                                <BookOpen size={16} className="text-crimson-red" />
+                                <h4 className="text-lg font-black text-zinc-900 dark:text-white">Core Training Focus</h4>
+                              </div>
+                              <ul className="space-y-3 text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                                <li>• Integrating career planning with academic curriculum and internship coordination.</li>
+                                <li>• Strengthening lifelong career decision-making and professional confidence.</li>
+                                <li>• Improving communication skills, personality development, and leadership readiness.</li>
+                                <li>• Building aptitude, logical reasoning, verbal ability, and interview preparedness.</li>
+                                <li>• Conducting mock interviews aligned with corporate expectations.</li>
+                              </ul>
+                            </div>
+
+                            <div className="rounded-2xl border border-rose-100/40 bg-zinc-50/80 p-5 dark:border-zinc-800/70 dark:bg-zinc-900/40">
+                              <div className="mb-3 flex items-center gap-2">
+                                <Download size={16} className="text-crimson-red" />
+                                <h4 className="text-lg font-black text-zinc-900 dark:text-white">Training Activities</h4>
+                              </div>
+                              <div className="space-y-2">
+                                {[
+                                  { label: 'Training Activity 2024-25', href: 'https://anjumanengg.edu.in/UserData/uploads/pages/1019/Training%20Conducted.pdf' },
+                                  { label: 'Training Activity 2022-23', href: 'https://anjumanengg.edu.in/UserData/uploads/pages/1019/T_P_Activities-Report_2022-23(1)-1.pdf' },
+                                  { label: 'Training Activity 2021-22', href: 'https://anjumanengg.edu.in/UserData/uploads/pages/1019/TRAINING_PROGRAM_2021-22.pdf' },
+                                  { label: 'Training Activity 2019-20', href: 'https://anjumanengg.edu.in/UserData/uploads/pages/1019/TRAINING-ACTIVITIES2019-2020%20.pdf' },
+                                  { label: 'Training Activity 2018-19', href: 'https://anjumanengg.edu.in/UserData/uploads/pages/1019/TrainingActivity(18-19).pdf' }
+                                ].map((item, index) => (
+                                  <a
+                                    key={index}
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-3 py-3 text-sm font-semibold text-zinc-700 transition hover:border-crimson-red/30 hover:text-crimson-red dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                                  >
+                                    <span>{item.label}</span>
+                                    <ArrowUpRight size={14} />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                   </div>
                 )}
@@ -1007,6 +1358,74 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                       </p>
                     </div>
 
+                  </div>
+                )}
+
+                {/* Improved CRC / Placement Team / Industrial Visits UI */}
+                {activeTabId === 'activities' && (
+                  <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="lg:col-span-7 space-y-4">
+                      <div className="flex items-center gap-3">
+                        <Building2 size={22} className="text-crimson-red" />
+                        <h2 className="text-2xl font-black text-zinc-900 dark:text-white">Corporate Relations Centre (CRC)</h2>
+                      </div>
+
+                      <div className="rounded-2xl overflow-hidden shadow-lg">
+                        <img src="https://www.united.ac.in/frontend/images/crc-img.webp" alt="Corporate Relations Centre" className="w-full h-64 object-cover" />
+                      </div>
+
+                      <div className="prose max-w-none text-sm text-zinc-600 dark:text-zinc-300">
+                        <p>
+                          At United Group, the Corporate Relations Centre (CRC) works beyond mere placements — it builds industry-ready professionals. Our annual recruitment partnerships with Infosys, TCS, Wipro, L&amp;T and other leaders are complemented by focused training so students become 360° employable.
+                        </p>
+                        <p>
+                          Students undergo early assessments (2nd year) for aptitude and subject proficiency, receive tailored coaching, and in the final years participate in targeted interview readiness programs that also support competitive exams like GATE, SAT and GRE. Our active alumni network helps track opportunities and mentor graduates into industry and higher education pathways.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-5 space-y-6">
+                      <div className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-extrabold text-lg text-zinc-900 dark:text-white">Placement Team</h3>
+                          <Users size={20} className="text-rose-500" />
+                        </div>
+                        <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">Our placement cell focuses on continual skill-building: aptitude, technical depth, soft skills and domain-specific readiness across all years.</p>
+
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-sm text-zinc-600 dark:text-zinc-300">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> Sessions on Aptitude &amp; Personality from 2nd year</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> Company-specific preparation using past papers</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> Mock tests and interview simulations</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> CV counseling, GD practice &amp; grooming</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> Dedicated technical tutorials by faculty</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="mt-1 text-emerald-500" /> Student library with practice workbooks</li>
+                        </ul>
+                      </div>
+
+                      <div className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-extrabold text-lg text-zinc-900 dark:text-white">Industrial Visits</h3>
+                          <Building size={20} className="text-sky-500" />
+                        </div>
+                        <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">We organize regular field visits and exposure trips to trade fairs and manufacturing units to connect classroom learning with industry practices.</p>
+
+                        <ul className="list-disc list-inside mt-3 text-sm text-zinc-600 dark:text-zinc-300 space-y-1">
+                          <li>200 students to Asian Institute of Technology, Bangkok (15-days)</li>
+                          <li>240 B.Tech &amp; MCA students to INFOSYS, Chandigarh (SPARK)</li>
+                          <li>Pharmacy students: hands-on training at IPCA Laboratories</li>
+                          <li>Mechanical students: 3-day tour to HINDALCO, Renukoot</li>
+                          <li>PGDM/MBA plant visits: Mother Dairy, Moser Baer, IFFCO, HONDA</li>
+                        </ul>
+
+                        <div className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
+                          <strong>Collaborations &amp; Accreditations:</strong>
+                          <div className="mt-2 space-y-1">
+                            <div>Accredited by TCS • Academic Alliance with EMC2</div>
+                            <div>Collaborations: MAHINDRA RISE, TCS (CodeVita), Consultancy Development Centre</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1104,37 +1523,40 @@ export default function Placements({ selectedTab = 'about', setSelectedTab }: Pl
                       </p>
                     </div>
 
-                    {/* Image Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                      {GALLERY_IMAGES.map((img, idx) => (
-                        <div 
-                          key={idx} 
-                          className="bg-white dark:bg-zinc-900 border border-zinc-150/40 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm group hover:shadow-lg transition-all"
-                        >
-                          <div className="h-44 overflow-hidden relative">
-                            <img 
-                              src={img.url} 
-                              alt={img.caption} 
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-95"
-                              referrerPolicy="no-referrer"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                              <span className="text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-                                View Capture <ExternalLink size={10} />
-                              </span>
+                    {/* Image Grid with subtle overlay */}
+                    <div className="relative rounded-3xl">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 pointer-events-none rounded-3xl" />
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative z-10">
+                        {GALLERY_IMAGES.map((img, idx) => (
+                          <div 
+                            key={idx} 
+                            className="bg-white dark:bg-zinc-900 border border-zinc-150/40 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm group hover:shadow-lg transition-all"
+                          >
+                            <div className="h-44 overflow-hidden relative">
+                              <img 
+                                src={img.url} 
+                                alt={img.caption} 
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-95"
+                                referrerPolicy="no-referrer"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                                <span className="text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                  View Capture <ExternalLink size={10} />
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="p-4 space-y-1 text-left">
+                              <h4 className="font-sans font-bold text-xs text-zinc-900 dark:text-white group-hover:text-crimson-red transition-colors">
+                                {img.caption}
+                              </h4>
+                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-semibold">
+                                {img.desc}
+                              </p>
                             </div>
                           </div>
-                          
-                          <div className="p-4 space-y-1 text-left">
-                            <h4 className="font-sans font-bold text-xs text-zinc-900 dark:text-white group-hover:text-crimson-red transition-colors">
-                              {img.caption}
-                            </h4>
-                            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-semibold">
-                              {img.desc}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
 
                   </div>
