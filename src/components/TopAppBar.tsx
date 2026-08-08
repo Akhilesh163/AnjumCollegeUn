@@ -149,6 +149,100 @@ export default function TopAppBar({
     { id: 'Contact', label: 'CONTACT US', isIcon: false, hasDropdown: false },
   ];
 
+  const departmentPageLinks: Record<string, { label: string; href: string }[]> = {
+    firstyear: [
+      { label: 'About First Year (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1345' },
+      { label: 'UG Program (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1346' },
+      { label: 'Staff Profile (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1347' },
+      { label: 'ICT Teaching Faculty (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1348' },
+      { label: 'Staff Blogs (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1349' },
+      { label: 'Laboratory Details (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1350' },
+      { label: 'Events (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1351' },
+      { label: 'Student Activities (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1352' },
+      { label: 'Topper (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1353' },
+      { label: 'Media Coverage (B.Tech)', href: 'https://anjumanengg.edu.in/page/?id=1354' }
+    ],
+    aids: [
+      { label: 'About Department (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1124' },
+      { label: 'UG Programme (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1125' },
+      { label: 'Staff Profile (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1126' },
+      { label: 'ICT Teaching Faculty (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1127' },
+      { label: 'Staff Blogs (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1128' },
+      { label: 'Laboratory Details (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1129' },
+      { label: 'Events (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1130' },
+      { label: 'Students Activities (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1131' },
+      { label: 'Topper (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1132' },
+      { label: 'Media Coverage (AI&DSc.)', href: 'https://anjumanengg.edu.in/page/?id=1133' }
+    ],
+    civil: [
+      { label: 'About Department (CE)', href: 'https://anjumanengg.edu.in/page/?id=1071' },
+      { label: 'UG Programme (CE)', href: 'https://anjumanengg.edu.in/page/?id=1072' },
+      { label: 'Staff Profile (CE)', href: 'https://anjumanengg.edu.in/page/?id=1073' },
+      { label: 'ICT Teaching Faculty (CE)', href: 'https://anjumanengg.edu.in/page/?id=1074' },
+      { label: 'Staff Blogs (CE)', href: 'https://anjumanengg.edu.in/page/?id=1075' },
+      { label: 'Laboratory Details (CE)', href: 'https://anjumanengg.edu.in/page/?id=1076' },
+      { label: 'Events (CE)', href: 'https://anjumanengg.edu.in/page/?id=1077' },
+      { label: 'Students Achievements (CE)', href: 'https://anjumanengg.edu.in/page/?id=1078' },
+      { label: 'Topper Result (CE)', href: 'https://anjumanengg.edu.in/page/?id=1079' },
+      { label: 'Media Coverage (CE)', href: 'https://anjumanengg.edu.in/page/?id=1080' }
+    ],
+    cse: [
+      { label: 'About Department (CS)', href: 'https://anjumanengg.edu.in/page/?id=1081' },
+      { label: 'UG Programme (CS)', href: 'https://anjumanengg.edu.in/page/?id=1082' },
+      { label: 'Staff Profile (CS)', href: 'https://anjumanengg.edu.in/page/?id=1083' },
+      { label: 'ICT Teaching Faculty (CS)', href: 'https://anjumanengg.edu.in/page/?id=1084' },
+      { label: 'Staff Blogs (CS)', href: 'https://anjumanengg.edu.in/page/?id=1085' },
+      { label: 'Laboratory Details (CS)', href: 'https://anjumanengg.edu.in/page/?id=1086' },
+      { label: 'Events (CS)', href: 'https://anjumanengg.edu.in/page/?id=1087' },
+      { label: 'Students Activities (CS)', href: 'https://anjumanengg.edu.in/page/?id=1088' },
+      { label: 'Topper Results (CS)', href: 'https://anjumanengg.edu.in/page/?id=1089' },
+      { label: 'Media Coverage (CS)', href: 'https://anjumanengg.edu.in/page/?id=1090' }
+    ],
+    electrical: [
+      { label: 'About Department (EE)', href: 'https://anjumanengg.edu.in/page/?id=1091' },
+      { label: 'UG Programme (EE)', href: 'https://anjumanengg.edu.in/page/?id=1092' },
+      { label: 'Staff Profile (EE)', href: 'https://anjumanengg.edu.in/page/?id=1093' },
+      { label: 'ICT Teaching Faculty (EE)', href: 'https://anjumanengg.edu.in/page/?id=1094' },
+      { label: 'Staff Blogs (EE)', href: 'https://anjumanengg.edu.in/page/?id=1095' },
+      { label: 'Laboratory Details (EE)', href: 'https://anjumanengg.edu.in/page/?id=1096' },
+      { label: 'Events (EE)', href: 'https://anjumanengg.edu.in/page/?id=1097' },
+      { label: 'Students Activities (EE)', href: 'https://anjumanengg.edu.in/page/?id=1098' },
+      { label: 'Topper (EE)', href: 'https://anjumanengg.edu.in/page/?id=1099' },
+      { label: 'Media Coverage (EE)', href: 'https://anjumanengg.edu.in/page/?id=1100' }
+    ],
+    etc: [
+      { label: 'About Department (ET)', href: 'https://anjumanengg.edu.in/page/?id=1101' },
+      { label: 'UG Programme (ET)', href: 'https://anjumanengg.edu.in/page/?id=1102' },
+      { label: 'PG Programme (ET)', href: 'https://anjumanengg.edu.in/page/?id=1103' },
+      { label: 'Research Programme (ET)', href: 'https://anjumanengg.edu.in/page/?id=1383' },
+      { label: 'Staff Profile (ET)', href: 'https://anjumanengg.edu.in/page/?id=1104' },
+      { label: 'ICT Teaching Faculty (ET)', href: 'https://anjumanengg.edu.in/page/?id=1105' },
+      { label: 'Staff Blogs (ET)', href: 'https://anjumanengg.edu.in/page/?id=1106' },
+      { label: 'Laboratory Details (EE)', href: 'https://anjumanengg.edu.in/page/?id=1107' },
+      { label: 'Events (ET)', href: 'https://anjumanengg.edu.in/page/?id=1108' },
+      { label: 'Students Activities (ET)', href: 'https://anjumanengg.edu.in/page/?id=1109' },
+      { label: 'Topper Result (ET)', href: 'https://anjumanengg.edu.in/page/?id=1110' },
+      { label: 'Media coverage (ET)', href: 'https://anjumanengg.edu.in/page/?id=1111' }
+    ],
+    mechanical: [
+      { label: 'About Department (ME)', href: 'https://anjumanengg.edu.in/page/?id=1112' },
+      { label: 'UG Programme (ME)', href: 'https://anjumanengg.edu.in/page/?id=1113' },
+      { label: 'PG Programme (ME)', href: 'https://anjumanengg.edu.in/page/?id=1114' },
+      { label: 'Research Programme (ME)', href: 'https://anjumanengg.edu.in/page/?id=1115' },
+      { label: 'Staff Profile (ME)', href: 'https://anjumanengg.edu.in/page/?id=1116' },
+      { label: 'ICT Teaching Faculty (ME)', href: 'https://anjumanengg.edu.in/page/?id=1117' },
+      { label: 'Staff Blogs (ME)', href: 'https://anjumanengg.edu.in/page/?id=1118' },
+      { label: 'Laboratory Details (ME)', href: 'https://anjumanengg.edu.in/page/?id=1119' },
+      { label: 'Events (ME)', href: 'https://anjumanengg.edu.in/page/?id=1120' },
+      { label: 'Students Activities (ME)', href: 'https://anjumanengg.edu.in/page/?id=1121' },
+      { label: 'Topper Result (ME)', href: 'https://anjumanengg.edu.in/page/?id=1122' },
+      { label: 'Media coverage (ME)', href: 'https://anjumanengg.edu.in/page/?id=1123' }
+    ]
+  };
+
+  const [expandedDeptId, setExpandedDeptId] = useState<string | null>(null);
+  const [isDepartmentsDropdownOpen, setIsDepartmentsDropdownOpen] = useState(false);
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
@@ -315,8 +409,17 @@ export default function TopAppBar({
             // Custom dropdown implementation for Departments
             if (item.id === 'Academics') {
               return (
-                <div key={item.id} className="relative group/dropdown py-2">
+                <div
+                  key={item.id}
+                  className="relative group/dropdown py-2"
+                  onMouseEnter={() => setIsDepartmentsDropdownOpen(true)}
+                  onMouseLeave={() => {
+                    setIsDepartmentsDropdownOpen(false);
+                    setExpandedDeptId(null);
+                  }}
+                >
                   <button
+                    onMouseEnter={() => setIsDepartmentsDropdownOpen(true)}
                     onClick={() => {
                       setActiveTab('Academics');
                       setSelectedDeptId('all');
@@ -339,44 +442,88 @@ export default function TopAppBar({
                     )}
                   </button>
 
-                  {/* Dropdown Menu Container */}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-96 opacity-0 translate-y-3 pointer-events-none group-hover/dropdown:opacity-100 group-hover/dropdown:translate-y-0 group-hover/dropdown:pointer-events-auto transition-all duration-300 z-50">
-                    <div className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden py-2">
-                      <button
-                        onClick={() => {
-                          setActiveTab('Academics');
-                          setSelectedDeptId('all');
+                  <AnimatePresence>
+                    {isDepartmentsDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-[760px] z-50"
+                        onMouseEnter={() => setIsDepartmentsDropdownOpen(true)}
+                        onMouseLeave={() => {
+                          setIsDepartmentsDropdownOpen(false);
+                          setExpandedDeptId(null);
                         }}
-                        className="w-full text-left px-4 py-3 text-xs font-bold tracking-wider text-crimson-red dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-colors uppercase border-b border-zinc-100 dark:border-zinc-800/50 flex items-center justify-between"
                       >
-                        <span>VIEW ALL DEPARTMENTS</span>
-                        <span>&rarr;</span>
-                      </button>
-                      
-                      <div className="max-h-[360px] overflow-y-auto py-1">
-                        {DEPARTMENTS.map((dept) => {
-                          const isDeptSelected = activeTab === 'Academics' && selectedDeptId === dept.id;
-                          return (
-                            <button
-                              key={dept.id}
-                              onClick={() => {
-                                setActiveTab('Academics');
-                                setSelectedDeptId(dept.id);
-                              }}
-                              className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors flex items-center justify-between group/item ${
-                                isDeptSelected 
-                                  ? 'bg-rose-50/50 text-crimson-red dark:bg-rose-950/10 dark:text-rose-400 font-bold'
-                                  : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-crimson-red dark:hover:text-rose-400'
-                              }`}
-                            >
-                              <span className="truncate pr-2">{dept.name}</span>
-                              <span className="opacity-0 group-hover/item:opacity-100 text-crimson-red dark:text-rose-400 transition-opacity text-xs font-bold">&rarr;</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
+                        <div
+                          className="bg-gradient-to-br from-white via-rose-50/30 to-white dark:from-zinc-900 dark:via-zinc-950/80 dark:to-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl shadow-[0_22px_70px_-20px_rgba(0,0,0,0.35)] overflow-hidden"
+                          onMouseLeave={() => setExpandedDeptId(null)}
+                        >
+                          <div className="flex min-h-[420px]">
+                            <div className="w-full max-w-[320px] border-r border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950/60">
+                              <button
+                                onClick={() => {
+                                  setActiveTab('Academics');
+                                  setSelectedDeptId('all');
+                                }}
+                                className="w-full text-left px-4 py-3 text-[10px] font-extrabold tracking-[0.22em] text-crimson-red dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-colors uppercase border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between"
+                              >
+                                <span>VIEW ALL DEPARTMENTS</span>
+                                <span>&rarr;</span>
+                              </button>
+
+                              <div className="max-h-[380px] overflow-y-auto py-1">
+                                {DEPARTMENTS.map((dept) => {
+                                  const isDeptSelected = activeTab === 'Academics' && selectedDeptId === dept.id;
+                                  const isExpanded = expandedDeptId === dept.id;
+
+                                  return (
+                                    <button
+                                      key={dept.id}
+                                      onClick={() => {
+                                        setExpandedDeptId(dept.id);
+                                        setActiveTab('Academics');
+                                        setSelectedDeptId(dept.id);
+                                      }}
+                                      onMouseEnter={() => setExpandedDeptId(dept.id)}
+                                      className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center justify-between group/item border-b border-zinc-100 dark:border-zinc-800/60 last:border-b-0 ${
+                                        isDeptSelected || isExpanded
+                                          ? 'bg-rose-50/90 text-crimson-red dark:bg-rose-950/20 dark:text-rose-400 font-semibold shadow-[inset_2px_0_0_0_#b91c1c]'
+                                          : 'text-zinc-700 dark:text-zinc-300 hover:bg-white/80 dark:hover:bg-zinc-800/70 hover:text-crimson-red dark:hover:text-rose-400'
+                                      }`}
+                                    >
+                                      <span className="truncate pr-2">{dept.name}</span>
+                                      <span className="text-crimson-red dark:text-rose-400 text-xs font-bold opacity-70 group-hover/item:opacity-100 transition-opacity">→</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            <div className="flex-1 bg-white/80 dark:bg-zinc-900/70 p-3">
+                              <div className="max-h-[360px] overflow-y-auto py-1 space-y-1">
+                                {expandedDeptId ? (
+                                  (departmentPageLinks[expandedDeptId] ?? []).map((item) => (
+                                    <a
+                                      key={item.href}
+                                      href={item.href}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-rose-950/10 hover:text-crimson-red dark:hover:text-rose-400 transition-all duration-200"
+                                    >
+                                      <span>{item.label}</span>
+                                      <span className="text-crimson-red dark:text-rose-400">→</span>
+                                    </a>
+                                  ))
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             }

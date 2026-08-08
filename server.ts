@@ -60,7 +60,27 @@ Instructions for replies:
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+
+  const preferredPort = Number(process.env.PORT ?? 3000);
+  const normalizePort = (value: number) => Number.isFinite(value) && value > 0 ? value : 3000;
+
+  const startListening = (port: number, retriesLeft: number) => {
+    const server = app.listen(normalizePort(port), '0.0.0.0', () => {
+      console.log(`Server running on http://localhost:${normalizePort(port)}`);
+    });
+
+    server.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.code === 'EADDRINUSE' && retriesLeft > 0) {
+        const nextPort = normalizePort(port + 1);
+        console.warn(`Port ${normalizePort(port)} is busy. Retrying on ${nextPort}...`);
+        startListening(nextPort, retriesLeft - 1);
+        return;
+      }
+
+      console.error('Failed to start server:', error);
+      process.exit(1);
+    });
+  };
 
   // Middleware for parsing JSON requests
   app.use(express.json());
@@ -122,9 +142,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  startListening(preferredPort, 5);
 }
 
 startServer().catch((err) => {
